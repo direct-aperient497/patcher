@@ -1,0 +1,82 @@
+* { box-sizing: border-box; }
+
+html { background: #fff; color: #111; }
+
+body {
+  margin: 0;
+  font: 14px/1.45 Arial, Helvetica, sans-serif;
+}
+
+main {
+  width: min(780px, calc(100% - 24px));
+  margin: 20px auto 48px;
+}
+
+h1 { font-size: 22px; margin: 0 0 8px; }
+h2 { font-size: 16px; margin: 20px 0 8px; }
+p { margin: 0 0 12px; }
+ul { margin: 6px 0 14px 22px; padding: 0; }
+li { margin: 3px 0; }
+hr { border: 0; border-top: 1px solid #aaa; margin: 22px 0; }
+
+section {
+  border: 1px solid #999;
+  background: #f3f3f3;
+  padding: 12px;
+}
+
+section h2 { margin-top: 0; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+input, select, button {
+  min-height: 30px;
+  border: 1px solid #777;
+  border-radius: 0;
+  background: #fff;
+  color: #111;
+  font: inherit;
+}
+
+input { padding: 3px; }
+input[type="checkbox"] { min-height: auto; width: auto; padding: 0; }
+select, button { padding: 4px 8px; }
+button { background: #e6e6e6; cursor: pointer; }
+button:hover:not(:disabled) { background: #d8d8d8; }
+button:disabled { color: #777; cursor: default; }
+.actions { margin: 12px 0 8px 148px; }
+.field-note { margin: 4px 0 8px 148px; color: #333; }
+
+fieldset {
+  margin: 12px 0;
+  padding: 8px;
+  border: 1px solid #aaa;
+}
+
+fieldset > label { display: block; margin: 4px 0; }
+legend { padding: 0 4px; }
+
+pre {
+  min-height: 46px;
+  margin: 8px 0 0;
+  padding: 8px;
+  border: 1px solid #bbb;
+  background: #fff;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 12px/1.4 Consolas, "Courier New", monospace;
+}
+
+@media (max-width: 540px) {
+  .form-row { grid-template-columns: 1fr; gap: 3px; }
+  .actions { margin-left: 0; }
+  .field-note { margin-left: 0; }
+  .form-row input, .form-row select, button { width: 100%; }
+}
+

@@ -1,0 +1,15 @@
+(library
+ (name patcher_core)
+ (wrapped false)
+ (modules bps))
+
+(executable
+ (name main)
+ (modules main)
+ (modes js)
+ (libraries patcher_core js_of_ocaml)
+ (preprocess (pps js_of_ocaml-ppx))
+ (js_of_ocaml
+  (flags (:standard --opt 3))
+  (sourcemap no)))
+

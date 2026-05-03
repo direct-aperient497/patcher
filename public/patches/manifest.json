@@ -1,0 +1,37 @@
+{
+  "version": 4,
+  "roms": [
+    {
+      "sha1": "41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc",
+      "title": "Pokémon FireRed",
+      "revision": "English 1.0",
+      "patch": "/patches/firered-1.0-service-npc.bps",
+      "outputSha1": "3663fcce80ef8a61da72bb28f30b69cc7e56bcc1",
+      "configOffset": 15406064
+    },
+    {
+      "sha1": "dd5945db9b930750cb39d00c84da8571feebf417",
+      "title": "Pokémon FireRed",
+      "revision": "English 1.1",
+      "patch": "/patches/firered-1.1-service-npc.bps",
+      "outputSha1": "04416e3eaa81a6d6e1e7f9b4b450b4d9cfcfe8a8",
+      "configOffset": 15406064
+    },
+    {
+      "sha1": "574fa542ffebb14be69902d1d36f1ec0a4afd71e",
+      "title": "Pokémon LeafGreen",
+      "revision": "English 1.0",
+      "patch": "/patches/leafgreen-1.0-service-npc.bps",
+      "outputSha1": "db701e801e6af9ecbda7a4ed8ce2ad45cb7aeaea",
+      "configOffset": 15406824
+    },
+    {
+      "sha1": "7862c67bdecbe21d1d69ce082ce34327e1c6ed5e",
+      "title": "Pokémon LeafGreen",
+      "revision": "English 1.1",
+      "patch": "/patches/leafgreen-1.1-service-npc.bps",
+      "outputSha1": "73e1774aed6cfa77ee2bf73fdf0343c775c83828",
+      "configOffset": 15406824
+    }
+  ]
+}

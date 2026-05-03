@@ -1,0 +1,5 @@
+(executable
+ (name bps_test)
+ (modules bps_test)
+ (libraries patcher_core))
+
