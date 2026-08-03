@@ -3,3 +3,8 @@
  (modules bps_test)
  (libraries patcher_core))
 
+(test
+ (name bps_validation_test)
+ (modules bps_validation_test)
+ (libraries patcher_core))
+
