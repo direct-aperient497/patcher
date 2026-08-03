@@ -4,10 +4,14 @@ type patch_entry = {
   sha1 : string;
   title : string;
   revision : string;
+  game_code : string;
+  version : int;
   patch : string;
   output_sha1 : string;
   config_offset : int;
 }
+
+type input_kind = Original | Patched
 
 let entries =
   [
@@ -15,33 +19,41 @@ let entries =
       sha1 = "41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc";
       title = "Pokémon FireRed";
       revision = "English 1.0";
+      game_code = "BPRE";
+      version = 0;
       patch = "firered-1.0-service-npc.bps";
-      output_sha1 = "3663fcce80ef8a61da72bb28f30b69cc7e56bcc1";
-      config_offset = 15406064;
+      output_sha1 = "67d4661224992f590ed56bd8ef31103b73df58e2";
+      config_offset = 15407696;
     };
     {
       sha1 = "dd5945db9b930750cb39d00c84da8571feebf417";
       title = "Pokémon FireRed";
       revision = "English 1.1";
+      game_code = "BPRE";
+      version = 1;
       patch = "firered-1.1-service-npc.bps";
-      output_sha1 = "04416e3eaa81a6d6e1e7f9b4b450b4d9cfcfe8a8";
-      config_offset = 15406064;
+      output_sha1 = "87d6c8be21ff23d0ec73101a11a590dd2e8c66c4";
+      config_offset = 15407696;
     };
     {
       sha1 = "574fa542ffebb14be69902d1d36f1ec0a4afd71e";
       title = "Pokémon LeafGreen";
       revision = "English 1.0";
+      game_code = "BPGE";
+      version = 0;
       patch = "leafgreen-1.0-service-npc.bps";
-      output_sha1 = "db701e801e6af9ecbda7a4ed8ce2ad45cb7aeaea";
-      config_offset = 15406824;
+      output_sha1 = "d31f982ff357f2f7f07c65daf98f5ab1a4ab3c80";
+      config_offset = 15408456;
     };
     {
       sha1 = "7862c67bdecbe21d1d69ce082ce34327e1c6ed5e";
       title = "Pokémon LeafGreen";
       revision = "English 1.1";
+      game_code = "BPGE";
+      version = 1;
       patch = "leafgreen-1.1-service-npc.bps";
-      output_sha1 = "73e1774aed6cfa77ee2bf73fdf0343c775c83828";
-      config_offset = 15406824;
+      output_sha1 = "9b96bee09f3b4ca03f55e736c8560b36f7942c4b";
+      config_offset = 15408456;
     };
   ]
 
@@ -50,6 +62,8 @@ let config_magic = 0x43504e53
 let current_file : Js.Unsafe.any option ref = ref None
 
 let current_entry : patch_entry option ref = ref None
+
+let current_kind : input_kind option ref = ref None
 
 let busy = ref false
 
@@ -72,7 +86,11 @@ let update_button () =
   let disabled = !busy || Option.is_none !current_entry in
   set_property "patch-button" "disabled" (Js.bool disabled);
   set_text "patch-button"
-    (if !busy then "Working…" else "Patch and download ROM")
+    (if !busy then "Working…"
+     else
+       match !current_kind with
+       | Some Patched -> "Update settings and download ROM"
+       | _ -> "Patch and download ROM")
 
 let set_busy value =
   busy := value;
@@ -208,6 +226,44 @@ let write_u32_le buffer offset value =
   Bps.set buffer (offset + 2) ((value lsr 16) land 0xff);
   Bps.set buffer (offset + 3) ((value lsr 24) land 0xff)
 
+let copy_buffer source =
+  let output =
+    Bigarray.Array1.create Bigarray.int8_unsigned Bigarray.c_layout
+      (Bps.length source)
+  in
+  Bigarray.Array1.blit source output;
+  output
+
+let header_code buffer =
+  if Bps.length buffer <= 0xbc then None
+  else
+    Some
+      ( String.init 4 (fun index -> Char.chr (Bps.get buffer (0xac + index))),
+        Bps.get buffer 0xbc )
+
+let find_patched_candidate buffer =
+  match header_code buffer with
+  | None -> None
+  | Some (game_code, version) ->
+      List.find_opt
+        (fun entry ->
+          entry.game_code = game_code
+          && entry.version = version
+          && entry.config_offset + 8 <= Bps.length buffer
+          && read_u32_le buffer entry.config_offset = config_magic)
+        entries
+
+let verify_patched entry buffer on_success on_error =
+  match find_patched_candidate buffer with
+  | Some candidate when candidate = entry ->
+      let normalised = copy_buffer buffer in
+      write_u32_le normalised (entry.config_offset + 4) 0;
+      sha1 normalised
+        (fun digest ->
+          if digest = entry.output_sha1 then on_success () else on_error ())
+        on_error
+  | _ -> on_error ()
+
 let find_entry digest = List.find_opt (fun entry -> entry.sha1 = digest) entries
 
 let selected_file () =
@@ -224,10 +280,11 @@ let selected_file () =
 
 let choose_file () =
   current_entry := None;
+  current_kind := None;
   current_file := selected_file ();
   update_button ();
   match !current_file with
-  | None -> set_status "Choose an original ROM to begin."
+  | None -> set_status "Choose an original or patched ROM to begin."
   | Some file ->
       set_busy true;
       set_status "Checking ROM…";
@@ -237,16 +294,36 @@ let choose_file () =
               let source = buffer_of_array_buffer array_buffer in
               sha1 source
                 (fun digest ->
-                  current_entry := find_entry digest;
-                  (match !current_entry with
+                  match find_entry digest with
                   | Some entry ->
+                      current_entry := Some entry;
+                      current_kind := Some Original;
                       set_status
-                        (Printf.sprintf "Recognised: %s, %s." entry.title
-                           entry.revision)
+                        (Printf.sprintf "Recognised original: %s, %s."
+                           entry.title entry.revision);
+                      set_busy false
                   | None ->
-                      set_status
-                        (Printf.sprintf "Unsupported ROM. SHA-1: %s" digest));
-                  set_busy false)
+                      match find_patched_candidate source with
+                      | Some entry ->
+                          verify_patched entry source
+                            (fun () ->
+                              current_entry := Some entry;
+                              current_kind := Some Patched;
+                              set_status
+                                (Printf.sprintf
+                                   "Recognised patched: %s, %s. Optional settings can be updated directly."
+                                   entry.title entry.revision);
+                              set_busy false)
+                            (fun () ->
+                              set_status
+                                (Printf.sprintf
+                                   "Unsupported ROM. SHA-1: %s" digest);
+                              set_busy false)
+                      | None ->
+                          set_status
+                            (Printf.sprintf "Unsupported ROM. SHA-1: %s"
+                               digest);
+                          set_busy false)
                 (fun () -> fail_with "Could not identify ROM.")))
         (fun () -> fail_with "Could not read ROM.")
 
@@ -256,9 +333,24 @@ let configuration_flags () =
   lor (if get_bool_property "fast-eggs" "checked" then 4 else 0)
   lor (if get_bool_property "instant-text" "checked" then 8 else 0)
 
+let filename file =
+  Js.to_string (Js.Unsafe.coerce (Js.Unsafe.get file "name"))
+
+let configure_and_download file entry output message =
+  protect fail_with (fun () ->
+      if read_u32_le output entry.config_offset <> config_magic then
+        failwith "The service configuration block was not found.";
+      write_u32_le output (entry.config_offset + 4) (configuration_flags ());
+      sha1 output
+        (fun final_hash ->
+          download output (filename file);
+          set_status (message ^ final_hash);
+          set_busy false)
+        (fun () -> fail_with "Final output verification failed."))
+
 let patch_rom () =
-  match (!current_file, !current_entry) with
-  | Some file, Some entry ->
+  match (!current_file, !current_entry, !current_kind) with
+  | Some file, Some entry, Some Original ->
       set_busy true;
       set_status "Applying and verifying patch…";
       file_array_buffer file
@@ -275,32 +367,26 @@ let patch_rom () =
                           if base_hash <> entry.output_sha1 then
                             failwith
                               "Output verification failed; no file was saved.";
-                          if
-                            read_u32_le output entry.config_offset
-                            <> config_magic
-                          then
-                            failwith
-                              "The service configuration block was not found.";
-                          write_u32_le output (entry.config_offset + 4)
-                            (configuration_flags ());
-                          sha1 output
-                            (fun final_hash ->
-                              let filename =
-                                Js.to_string
-                                  (Js.Unsafe.coerce
-                                     (Js.Unsafe.get file "name"))
-                              in
-                              download output filename;
-                              set_status
-                                (Printf.sprintf
-                                   "Done. Patched ROM downloaded with its original filename. Final SHA-1: %s"
-                                   final_hash);
-                              set_busy false)
-                            (fun () ->
-                              fail_with "Final output verification failed.")))
+                          configure_and_download file entry output
+                            "Done. Patched ROM downloaded with its original filename. Final SHA-1: "))
                     (fun () ->
                       fail_with "Output verification failed; no file was saved.")))
             (fun () -> fail_with "Patch file is unavailable."))
+        (fun () -> fail_with "Could not read ROM.")
+  | Some file, Some entry, Some Patched ->
+      set_busy true;
+      set_status "Verifying and updating patched ROM…";
+      file_array_buffer file
+        (fun array_buffer ->
+          protect fail_with (fun () ->
+              let output = buffer_of_array_buffer array_buffer in
+              verify_patched entry output
+                (fun () ->
+                  configure_and_download file entry output
+                    "Done. Patched ROM settings updated without reapplying BPS. Final SHA-1: ")
+                (fun () ->
+                  fail_with
+                    "Patched ROM verification failed; no file was saved.")))
         (fun () -> fail_with "Could not read ROM.")
   | _ -> ()
 

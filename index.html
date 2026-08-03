@@ -15,7 +15,7 @@
       <section aria-labelledby="patcher-title">
         <h2 id="patcher-title">Patch ROM</h2>
         <div class="form-row">
-          <label for="rom">Original ROM</label>
+          <label for="rom">Original or patched ROM</label>
           <input id="rom" type="file" accept=".gba,application/octet-stream">
         </div>
         <div class="form-row">
@@ -37,21 +37,24 @@
         <div class="actions">
           <button id="patch-button" type="button" disabled>Patch and download ROM</button>
         </div>
-        <pre id="status" role="status" aria-live="polite">Choose an original ROM to begin.</pre>
+        <pre id="status" role="status" aria-live="polite">Choose an original or patched ROM to begin.</pre>
       </section>
       <hr>
       <h2>Included commands</h2>
       <ul>
-        <li>Select any party Pokémon, then toggle its shiny status, rename it, change its nature, or adjust training values whenever you need</li>
-        <li>Run animated trade evolutions, then evolve Eevee into Espeon or Umbreon by giving it the matching Sun or Moon Stone</li>
+        <li>Select any party Pokémon, then edit its identity, training, Hidden Power, ability, friendship, Pokérus, or shiny state whenever needed</li>
+        <li>Run native evolution methods for levels, friendship, held stones, trades, daytime, nighttime, and beauty through the original animation sequence</li>
         <li>Clone your selected Pokémon, remove unwanted Bad Eggs, heal the full party, or make the Pokémon occupying Box 10 shiny</li>
         <li>Enable the National Pokédex, collect useful bundles, maximise money and coins, or choose an item with its preferred quantity</li>
+        <li>Configure the next wild species, level, nature, gender, ability, and shiny state, then control normal encounter generation or repel behaviour</li>
+        <li>Edit the player name, gender, Trainer IDs, play time, money, and coins directly through persistent game-owned data</li>
         <li>Receive event tickets and island passes, reset tutors or roamers, respawn legendary encounters, and travel quickly between Pokémon Centers</li>
       </ul>
       <h2>Notes</h2>
       <ul>
         <li>Keep an untouched backup of your original ROM before patching, because restoring it later should always remain straightforward</li>
         <li>Only verified English FireRed and LeafGreen revisions are accepted, which prevents mismatched patches from damaging unsupported game files</li>
+        <li>Previously patched ROMs are recognised after normalising their configuration word, allowing optional settings to be updated safely without reapplying BPS</li>
         <li>The download keeps your original ROM filename, making the patched output straightforward to identify across mGBA, flash cartridges, and GBARunner3</li>
         <li>This site doesnt supply, upload, retain, or inspect commercial ROMs, because every transformation remains inside your current browser session</li>
       </ul>
