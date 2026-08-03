@@ -4,10 +4,10 @@ Applies a native utility expansion to English Pokémon FireRed and LeafGreen ROM
 
 | Game | Revision | Original SHA-1 | Verified patched base SHA-1 | Configuration offset |
 | --- | --- | --- | --- | --- |
-| FireRed | English 1.0 | 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc | 3663fcce80ef8a61da72bb28f30b69cc7e56bcc1 | 0xEB13F0 |
-| FireRed | English 1.1 | dd5945db9b930750cb39d00c84da8571feebf417 | 04416e3eaa81a6d6e1e7f9b4b450b4d9cfcfe8a8 | 0xEB13F0 |
-| LeafGreen | English 1.0 | 574fa542ffebb14be69902d1d36f1ec0a4afd71e | db701e801e6af9ecbda7a4ed8ce2ad45cb7aeaea | 0xEB16E8 |
-| LeafGreen | English 1.1 | 7862c67bdecbe21d1d69ce082ce34327e1c6ed5e | 73e1774aed6cfa77ee2bf73fdf0343c775c83828 | 0xEB16E8 |
+| FireRed | English 1.0 | 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc | f6dafb41ce91ad396f56ff948ac6c29450c00998 | 0xEB26B8 |
+| FireRed | English 1.1 | dd5945db9b930750cb39d00c84da8571feebf417 | 44908e8c5223dd73f8cc2868223511012c285506 | 0xEB26B8 |
+| LeafGreen | English 1.0 | 574fa542ffebb14be69902d1d36f1ec0a4afd71e | d26b4bb82e12ecb1f7a155a6869d4ccc4ea7bf3f | 0xEB29B0 |
+| LeafGreen | English 1.1 | 7862c67bdecbe21d1d69ce082ce34327e1c6ed5e | 89a66b36f4bb5f6eed6badfda119af1f2d2024de | 0xEB29B0 |
 
 Other languages, revisions, translations, randomisers and existing ROM hacks wont pass identification because their compiled addresses arent guaranteed to match these targets.
 

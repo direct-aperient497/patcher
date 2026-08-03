@@ -22,8 +22,8 @@ let entries =
       game_code = "BPRE";
       version = 0;
       patch = "firered-1.0-service-npc.bps";
-      output_sha1 = "b7006973f264cf12146f63608f35d7ad464d020e";
-      config_offset = 15407896;
+      output_sha1 = "f6dafb41ce91ad396f56ff948ac6c29450c00998";
+      config_offset = 15410872;
     };
     {
       sha1 = "dd5945db9b930750cb39d00c84da8571feebf417";
@@ -32,8 +32,8 @@ let entries =
       game_code = "BPRE";
       version = 1;
       patch = "firered-1.1-service-npc.bps";
-      output_sha1 = "0a300922e03338dc979505ba5a0a5be83b16e74d";
-      config_offset = 15407896;
+      output_sha1 = "44908e8c5223dd73f8cc2868223511012c285506";
+      config_offset = 15410872;
     };
     {
       sha1 = "574fa542ffebb14be69902d1d36f1ec0a4afd71e";
@@ -42,8 +42,8 @@ let entries =
       game_code = "BPGE";
       version = 0;
       patch = "leafgreen-1.0-service-npc.bps";
-      output_sha1 = "ec1e80a8d2e10cc91c63545550fae3c76a902a9f";
-      config_offset = 15408656;
+      output_sha1 = "d26b4bb82e12ecb1f7a155a6869d4ccc4ea7bf3f";
+      config_offset = 15411632;
     };
     {
       sha1 = "7862c67bdecbe21d1d69ce082ce34327e1c6ed5e";
@@ -52,8 +52,8 @@ let entries =
       game_code = "BPGE";
       version = 1;
       patch = "leafgreen-1.1-service-npc.bps";
-      output_sha1 = "c102f8ebb2c995aa50cfc08ab5f6fceeaf33d63d";
-      config_offset = 15408656;
+      output_sha1 = "89a66b36f4bb5f6eed6badfda119af1f2d2024de";
+      config_offset = 15411632;
     };
   ]
 
