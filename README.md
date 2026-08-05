@@ -56,16 +56,3 @@ The existing old guy remains on the original map and retains his normal interact
 
 ![](screenshots/greeting.png)
 
-## Execution
-
-The browser is only responsible for identifying the input, applying the revision binary delta, verifying the reconstructed build, writing the configuration flags and returning the finished ROM. It doesnt execute service operations or understand the live game state
-
-Previously patched ROMs are identified using the header game code, revision byte, service configuration magic and a SHA-1 comparison after normalising the configuration word. This permits idempotent configuration changes without applying the BPS instruction stream again, while rejecting any ROM whose executable data differs from the verified patched base
-
-The browser implementation is written in OCaml and compiled to ECMAScript through js_of_ocaml. Its BPS interpreter operates on Bigarray buffers which js_of_ocaml maps onto JavaScript typed arrays, avoiding a separate handwritten JavaScript patching layer while retaining predictable binary access. Browser interoperation is limited to file selection, XMLHttpRequest patch retrieval, Web Crypto SHA-1 verification, DOM events and Blob based downloads
-
-The build uses Dune to produce the browser bundle from the same OCaml modules used by the native BPS verification executable. GitHub Actions creates an isolated opam environment, resolves the declared compiler packages, builds the release bundle and publishes only the generated JavaScript with the static page and patch assets
-
-The patched GBA program owns the actual feature behaviour so that when the player selects an operation the event script establishes context, displays the appropriate menu, records the selection in script variables and then calls the matching native special. That special validates the target and applies the change through game owned data structures, updates checksums or encrypted Pokémon data where required then returns control to the script for confirmation or another menu.
-
-This separation is why the same patched output works under mGBA, compatible flash hardware and GBARunner3. The browser isnt providing a runtime component after download and the game doesnt call back into JavaScript, access a host filesystem or rely on an emulator extension
